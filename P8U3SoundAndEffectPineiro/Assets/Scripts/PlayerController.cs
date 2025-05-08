@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -16,11 +17,14 @@ public class PlayerController : MonoBehaviour
     public bool gameOver;
 
     // Start is called before the first frame update
+    private AudioSource PlayerAudio;
+
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
         Physics.gravity *= gravityModifier;
+        PlayerAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,6 +36,11 @@ public class PlayerController : MonoBehaviour
             isOnGround = false;
             playerAnim.SetTrigger("Jump_trig");
             dirtParticle.Stop();
+            PlayerAudio.PlayOneShot(jumpsound, 1.0f); 
+
+
+            
+
         }
    
     }
@@ -52,6 +61,7 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetInteger("DeathType_int", 1);
             explosionParticle.Play();
             dirtParticle.Stop();
+            PlayerAudio.PlayOneShot(crashSound, 1.0f);
             
         }
     }
